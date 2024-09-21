@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="email_tem_user" model="mail.template">
+            <field name="name">User: Send by email</field>
+            <field name="email_from"/>
+            <field name="partner_to"/>
+            <field name="subject">User Mail: </field>
+            <field name="body_html" type="html">
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Dear <t t-out="object.name">User</t>
+                            <br /><br />
+                            Here is your mail.
+                            <br /><br />
+                            Do not hesitate to contact us if you have any questions.
+                        </p>
+                    </div>
+            </field>
+        </record>
+    </data>
+</odoo>

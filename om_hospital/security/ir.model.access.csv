@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+om_hospital.access_hospital_patient,access_hospital_patient,om_hospital.model_hospital_patient,base.group_user,1,1,1,1
+om_hospital.access_hospital_doctor,access_hospital_doctor,om_hospital.model_hospital_doctor,base.group_user,1,1,1,1
+om_hospital.access_hospital_appointment,access_hospital_appointment,om_hospital.model_hospital_appointment,base.group_user,1,1,1,1
+access_res_partner_group_partner_manager_custom,res_partner group_partner_manager_custom,base.model_res_partner,base.group_partner_manager,1,0,0,0

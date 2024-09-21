@@ -1,0 +1,9 @@
+<odoo>
+    <record id="appointment_action_report" model="ir.actions.report">
+        <field name="name">appointment_report</field>
+        <field name="model">hospital.appointment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">om_hospital.appointment_report</field>
+        <field name="report_file">om_hospital.appointment_report</field>
+    </record>
+</odoo>
