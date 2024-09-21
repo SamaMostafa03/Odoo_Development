@@ -1,0 +1,13 @@
+
+
+.table-txt {
+border: 1px solid black !important;
+padding: 3px !important;
+background-color: #fcfcef !important;
+font-weight: normal !important;
+}
+.table-fld {
+    border: 1px solid black !important;
+    padding: 3px !important;
+    text-align: center !important;
+}

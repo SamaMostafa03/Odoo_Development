@@ -1,0 +1,323 @@
+<?xml version="1.0"?>
+<odoo>
+    <template id="custom_invoice.report_invoice">
+        <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="custom_invoice.external_layout_header2">
+                    <link rel="stylesheet" href="/custom_invoice/static/src/css/invoice_style.css" type="text/css"/>
+                        <!-- CR-VAT table -->
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 40px;">
+                            <tr>
+                                <td class="table-fld" style="width:20%;">
+                                    <t t-esc="o.company_id.company_registry"/>
+                                </td>
+                                <td class="table-txt" style="text-align: center; ">
+                                    CR NO.|رقم السجل التجاري
+                                </td>
+                                <td class="table-fld" style="width:20%;">
+                                    <t t-esc="o.company_id.vat"/>
+                                </td>
+                                <td class="table-txt" style="text-align: center;">
+                                    VAT NO.|رقم ضريبة القيمة المضافة
+                                </td>
+                            </tr>
+                        </table>
+                        <h1 style="text-align: center; margin-bottom: 30px;"><span style="background-color: #e0ce10; font-weight: normal; padding:5px;">TAX INVOICE فاتورة ضريبية</span></h1>
+                        <!-- container for QR & invoice table -->
+                        <div style="overflow: auto; ">
+                            <div style="display: inline-block; width:30%; margin-right:9.6%; ">
+                                <p>
+                                    <img t-if="o.l10n_sa_qr_code_str" style="display:block;" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s'%('QR', quote_plus(o.l10n_sa_qr_code_str), 150, 150)"/>
+                                </p>
+                            </div>
+                            <div style="display: inline-block; width:60%;">
+                            <table>
+                                    <tr>
+                                        <td class="table-txt" style="width: 40%;">Number Invoice out_invoice</td>
+                                        <td class="table-fld" style="width: 35%; text-align: center;"><t t-esc="o.name"/></td>
+                                        <td class="table-txt" style="width: 25%; text-align: right; ">رقم الفاتورة</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="table-txt">Invoice Date</td>
+                                        <td class="table-fld" style=" text-align: center;"><t t-esc="o.invoice_date"/></td>
+                                        <td class="table-txt" style="text-align: right;">تاريخ الفاتورة</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="table-txt">Due Date</td>
+                                        <td class="table-fld" style=" text-align: center;"><t t-esc="o.einv_sa_delivery_date"/></td>
+                                        <td class="table-txt" style="text-align: right; ">تاريخ الاستحقاق</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="table-txt">Payment Terms</td>
+                                        <td class="table-fld" style=" text-align: center;"><t t-esc="o.invoice_payment_term_id.name"/></td>
+                                        <td class="table-txt" style="text-align: right;">شروط الدفع</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="table-txt">External Number</td>
+                                        <td class="table-fld" style=" text-align: center;"></td>
+                                        <td class="table-txt" style="text-align: right;"></td>
+                                    </tr>
+                            </table>
+
+                            </div>
+                        </div>
+
+                       <!-- container for seller & buyer tables -->
+                        <div style="overflow: auto; margin-top: 20px;">
+                            <!-- Seller Information Table -->
+                            <table style="display: inline-block; width: 49.8%; border-collapse: collapse; vertical-align: top;">
+                                <thead>
+                                    <tr>
+                                        <th colspan="3" style="border: 1px solid black; padding: 3px; background-color: #fcfcef;">
+                                            <div style="display: flex; justify-content: space-between; width: 100%;">
+                                                <span style="margin-right:62%">Seller Info</span>
+                                                <span style="font-weight: normal;">بيانات التاجر</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tr>
+                                    <td class="table-txt" style=" width:25%;">Name</td>
+                                    <td class="table-fld" style=" width:45%;"><t t-esc="o.company_id.name"/></td>
+                                    <td class="table-txt" style=" width:25%; text-align: right;">الاسم</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-txt">Seller</td>
+                                    <td class="table-fld"><t t-esc="o.invoice_user_id.name"/></td>
+                                    <td class="table-txt" style="text-align: right;">المندوب</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-txt">Building No</td>
+                                    <td class="table-fld"><t t-esc="o.company_id.building_no"/></td>
+                                    <td class="table-txt" style="text-align: right;">رقم المبني</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-txt">Street Name</td>
+                                    <td class="table-fld"><t t-esc="o.company_id.street"/></td>
+                                    <td class="table-txt" style="text-align: right;">اسم الشارع</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-txt">District</td>
+                                    <td class="table-fld"><t t-esc="o.company_id.district"/></td>
+                                    <td class="table-txt" style="text-align: right;">الحي</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-txt">City</td>
+                                    <td class="table-fld"><t t-esc="o.company_id.city"/></td>
+                                    <td class="table-txt" style="text-align: right;">المدينة</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-txt">Country</td>
+                                    <td class="table-fld"><t t-esc="o.company_id.country_id.name"/></td>
+                                    <td class="table-txt" style="text-align: right;">البلد</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-txt">Postal Code</td>
+                                    <td class="table-fld"><t t-esc="o.company_id.zip"/></td>
+                                    <td class="table-txt" style="text-align: right;">الرمز البريدي</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-txt">Additional Number</td>
+                                    <td class="table-fld"><t t-esc="o.company_id.additional_no"/></td>
+                                    <td class="table-txt" style="text-align: right;">الرقم الاضافي</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-txt">VAT NO.</td>
+                                    <td class="table-fld"><t t-esc="o.company_id.vat"/></td>
+                                    <td class="table-txt" style="text-align: right;">الرقم الضريبي</td>
+                                </tr>
+                                <thead>
+                                    <tr>
+                                        <th colspan="3" style="border: 1px solid black; padding: 3px; background-color: #fcfcef;">
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                            </table>
+
+                            <!-- Buyer Information Table -->
+                            <table style="display: inline-block; width: 49.8%; border-collapse: collapse; vertical-align: top;">
+                                <thead>
+                                    <tr>
+                                        <th colspan="3" style="border: 1px solid black; padding: 3px; background-color: #fcfcef;">
+                                            <div style="display: flex; justify-content: space-between; width: 100%;">
+                                                <span style="margin-right:60%">Buyer Info</span>
+                                                <span style="font-weight: normal;">بيانات العميل</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tr>
+                                    <td class="table-txt" style=" width:25%;">Name</td>
+                                    <td class="table-fld" style=" width:45%;  text-align: center;"><t t-esc="o.partner_id.name"/></td>
+                                    <td class="table-txt" style=" width:25%;  text-align: right;">الاسم</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-txt">Phone</td>
+                                    <td class="table-fld" style=" text-align: center;"><t t-esc="o.partner_id.phone"/></td>
+                                    <td class="table-txt" style=" text-align: right;">رقم الجوال</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-txt">Building No</td>
+                                    <td class="table-fld" style=" text-align: center;"><t t-esc="o.partner_id.building_no"/></td>
+                                    <td class="table-txt" style="text-align: right;">رقم المبني</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-txt">Street Name</td>
+                                    <td class="table-fld" style="text-align: center;"><t t-esc="o.partner_id.street"/></td>
+                                    <td class="table-txt" style="text-align: right;">اسم الشارع</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-txt">District</td>
+                                    <td class="table-fld" style="text-align: center;"><t t-esc="o.partner_id.district"/></td>
+                                    <td class="table-txt" style="text-align: right;">الحي</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-txt">City</td>
+                                    <td class="table-fld" style="text-align: center;"><t t-esc="o.partner_id.city"/></td>
+                                    <td class="table-txt" style="text-align: right;">المدينة</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-txt">Country</td>
+                                    <td class="table-fld" style="text-align: center;"><t t-esc="o.partner_id.country_id.name"/></td>
+                                    <td class="table-txt" style="text-align: right;">البلد</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-txt">Postal Code</td>
+                                    <td class="table-fld" style="text-align: center;"><t t-esc="o.partner_id.zip"/></td>
+                                    <td class="table-txt" style="text-align: right;">الرمز البريدي</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-txt">Additional Number</td>
+                                    <td class="table-fld" style="text-align: center;"><t t-esc="o.partner_id.additional_no"/></td>
+                                    <td class="table-txt" style="text-align: right;">الرقم الاضافي</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-txt">VAT NO.</td>
+                                    <td class="table-fld" style="text-align: center;"><t t-esc="o.partner_id.vat"/></td>
+                                    <td class="table-txt" style="text-align: right;">الرقم الضريبي</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-txt">CR NO.</td>
+                                    <td class="table-fld" style="text-align: center;"><t t-esc="o.company_id.company_registry"/></td>
+                                    <td class="table-txt" style="text-align: right;">السجل التجاري</td>
+                                </tr>
+
+                            </table>
+                        </div>
+
+                        <!-- Invoice Line Table -->
+                        <table style="width: 100%; border-collapse: collapse; margin-top: 2%; margin-bottom: 2%;">
+                            <thead>
+                                <tr>
+                                    <th colspan="8" style="border: 1px solid black; padding: 3px; background-color: #fcfcef;">
+                                        <div style="display: flex; justify-content: space-between; width: 100%;">
+                                            <span style="margin-right: 86%;">Line Item</span>
+                                            <span style="font-weight: normal;">بند</span>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <thead>
+                                <tr>
+                                    <th class="table-txt">السلع او الخدمات</th>
+                                    <th class="table-txt">سعر الوحدة</th>
+                                    <th class="table-txt">الكمية</th>
+                                    <th class="table-txt">المبلغ قبل الضريبة</th>
+                                    <th class="table-txt">خصم</th>
+                                    <th class="table-txt">نسبة الضريبة</th>
+                                    <th class="table-txt">قيمة الضريبة</th>
+                                    <th class="table-txt">المجموع شامل الضريبة</th>
+                                </tr>
+                            </thead>
+                            <thead>
+                                <tr>
+                                    <th class="table-txt">Goods or services</th>
+                                    <th class="table-txt">Unit Price</th>
+                                    <th class="table-txt">Qty</th>
+                                    <th class="table-txt">Subtotal AMOUNT</th>
+                                    <th class="table-txt">Discount</th>
+                                    <th class="table-txt">Tax Rate</th>
+                                    <th class="table-txt">Tax Amount</th>
+                                    <th class="table-txt">Total Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="docs.invoice_line_ids" t-as="ob">
+                                    <tr class="table-fld">
+                                        <td class="table-fld">
+                                             <t t-esc="ob.product_id.name"/>
+                                        </td>
+                                        <td class="table-fld">
+                                              <t t-esc="ob.price_unit"/>
+                                        </td>
+                                        <td class="table-fld">
+                                              <t t-esc="ob.quantity"/>
+                                        </td>
+                                        <td class="table-fld">
+                                               <t t-esc="ob.price_subtotal"/>
+                                        </td>
+                                        <td class="table-fld">
+                                               <t t-esc="ob.einv_amount_discount"/>
+                                        </td>
+                                        <td class="table-fld">
+                                               <span t-esc="', '.join(map(lambda x: (x.description or x.name), ob.tax_ids))" id="line_tax_ids"/>
+                                        </td>
+                                        <td class="table-fld">
+                                               <t t-esc="ob.einv_amount_tax"/>
+                                        </td>
+                                        <td class="table-fld">
+                                               <t t-esc="ob.price_total"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <!-- Total Table -->
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 3%; ">
+                                <thead>
+                                    <tr>
+                                        <th colspan="3" style="border: 1px solid black; padding: 3px; background-color: #fcfcef;">
+                                        <div style="display: flex; justify-content: space-between; width: 100%;">
+                                            <span style="margin-right: 75%;">Total Amount</span>
+                                                <span style="font-weight: normal; ">المبلغ الاجمالي</span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tr>
+                                    <td class="table-txt" style="width:30%;">Total Without VAT:</td>
+                                    <td class="table-fld" style="width:30%;"><t t-esc="o.einv_amount_sale_total"/></td>
+                                    <td class="table-txt" style=" text-align:right; width:40%;">الاجمالي باستثناء ضريبة القيمةالمضافة</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="table-txt">Discount:</td>
+                                    <td class="table-fld"><t t-esc="o.einv_amount_discount_total"/></td>
+                                    <td class="table-txt" style=" text-align: right;">خصم</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-txt">Total Taxable Amount Without VAT:</td>
+                                    <td class="table-fld"><t t-esc="o.einv_amount_tax_total"/></td>
+                                    <td class="table-txt" style=" text-align:right;">
+                                        اجمالي المبلغ الخاضع للضريبة باستثناء ضريبة القيمةالمضافة
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table-txt">VAT Amount:</td>
+                                    <td class="table-fld"><t t-esc="o.amount_tax_signed"/></td>
+                                    <td class="table-txt" style=" text-align:right">اجمالي ضريبة القيمة المضافة</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-txt">Total Amount:</td>
+                                    <td class="table-fld"><t t-esc="o.amount_total"/></td>
+                                    <td class="table-txt" style="text-align: right ">اجمالي المبلغ المستحق </td>
+                                </tr>
+                            </table>
+                </t>
+             </t>
+        </t>
+    </template>
+</odoo>
+
