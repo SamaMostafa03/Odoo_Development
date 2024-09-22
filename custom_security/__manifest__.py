@@ -8,6 +8,6 @@
 
     'depends': ['sale', 'purchase'],
     'data': [
+        'security/security_access_data.xml',
     ],
-
 }
